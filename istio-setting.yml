@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: test-gateway
+  namespace: test-istio
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: test-istio-vs
+  namespace: test-istio
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - test-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: svc-nginx-test-istio
+        subset: nginx
+        port:
+          number: 80
+      weight: 50
+    - destination:
+        host: svc-apache-test-istio
+        subset: apache
+        port:
+          number: 80
+      weight: 50
