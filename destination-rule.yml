@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: test-istio-destination-rule-1
+  namespace: test-istio
+spec:
+  host: svc-nginx-test-istio
+  subsets:
+  - name: nginx
+    labels:
+      app: nginx-pod
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: test-istio-destination-rule-2
+  namespace: test-istio
+spec:
+  host: svc-apache-test-istio
+  subsets:
+  - name: apache
+    labels:
+      app: apache-pod
