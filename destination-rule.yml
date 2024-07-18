@@ -8,7 +8,7 @@ spec:
   subsets:
   - name: nginx
     labels:
-      app: nginx-pod
+      version: v1.0
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -20,4 +20,4 @@ spec:
   subsets:
   - name: apache
     labels:
-      app: apache-pod
+      version: v1.0.0
