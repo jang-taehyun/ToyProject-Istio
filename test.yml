@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nginx-test-istio
+  namespace: test-istio
+  labels:
+    version: v1.0
+spec:
+  selector:
+    app: nginx-pod
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-apache-test-istio
+  namespace: test-istio
+  labels:
+    version: v1.0.0
+spec:
+  selector:
+    app: apache-pod
+  ports:
+  - port: 80
+    targetPort: 80
+    name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-nginx-test-istio
+  namespace: test-istio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-pod
+  template:
+    metadata:
+      labels:
+        app: nginx-pod
+        version: v1.0
+    spec:
+      containers:
+      - name: nginx-con
+        image: nginx:latest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep-apache-test-istio
+  namespace: test-istio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apache-pod
+  template:
+    metadata:
+      labels:
+        app: apache-pod
+        version: v1.0.0
+    spec:
+      containers:
+      - name: apache-con
+        image: httpd:latest
